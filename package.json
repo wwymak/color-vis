@@ -1,0 +1,18 @@
+{
+  "name": "color_vis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "color-thief": "^2.2.2",
+    "flickrapi": "^0.4.2",
+    "request": "^2.72.0",
+    "request-promise": "^3.0.0",
+    "rimraf": "^2.5.2"
+  }
+}
