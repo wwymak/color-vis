@@ -7,7 +7,16 @@ const som = require('node-som');
 const Stats = require('fast-stats').Stats;
 
 let colors = JSON.parse(fs.readFileSync('color.json'));
-console.log(colors[0])
+console.log(colors[0]); 
+let somColors = [];
+colors.forEach(d => {
+  let palette = d.palette;
+  palette.forEach(p => {
+    somColors.push({palette:p, id:d.imgID})
+  });
+});
+
+console.log(somColors[0]);
 
 function analyzeTrainingSet(somConfig, data) {
   var inputSpace = data;
@@ -20,7 +29,7 @@ function analyzeTrainingSet(somConfig, data) {
   };
 
   for (var i = 0; i <= inputSpace.length - 1; i++) {
-    var inputVector = inputSpace[i];
+    var inputVector = inputSpace[i].palette;
     var group = network.classify(inputVector);
     if (!resultSpace.groups[group])
       resultSpace.groups[group] = {
@@ -29,7 +38,7 @@ function analyzeTrainingSet(somConfig, data) {
         inputCount: 0
       };
     resultSpace.groups[group].inputCount++;
-    resultSpace.groups[group].inputs.push(inputVector);
+    resultSpace.groups[group].inputs.push(inputSpace[i]);
   }
 
   return resultSpace;
@@ -45,7 +54,7 @@ var result = analyzeTrainingSet({
     min: 0,
     max: 255
   }
-}, colors);
+}, somColors);
 
 fs.writeFile('colorSOM.json', JSON.stringify(result), (err, cb) => {
   if (err !== null) {

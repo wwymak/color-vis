@@ -123,7 +123,7 @@ Flickr.tokenOnly(flickrOptions, function(error, flickr) {
             var path = 'tmp/' + filename;
             fs.writeFile(path, body, 'binary', function () {
               var palette = colorThief.getPalette(path, 4);
-              callback(err, palette);
+              callback(err, {palette: palette, imgID:urlObj.imgID });
 
               rimraf(path, [], function (err) {
                 if (err) {
@@ -133,12 +133,12 @@ Flickr.tokenOnly(flickrOptions, function(error, flickr) {
             });
           });
     }, (err, result) => {
-      let allColors = result[0];
-      for (let i = 1; i< result.length; i++){
-        allColors = [...allColors, ...result[i]];
-      }
-      console.log(allColors[0] , 'done')
-      fs.writeFile('color.json', JSON.stringify(allColors), (err, cb) => {
+      // let allColors = result[0];
+      // for (let i = 1; i< result.length; i++){
+      //   allColors = [...allColors, ...result[i]];
+      // }
+      console.log(result[0] , 'done')
+      fs.writeFile('color.json', JSON.stringify(result), (err, cb) => {
         if (err !== null) {
           console.log(err);
         } else {

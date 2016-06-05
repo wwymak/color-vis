@@ -7,7 +7,9 @@ d3.json('colorSOM.json', (err, data) => {
   console.log(colorGroups, Object.keys(colorGroups).length)
   let colorDataArr = [];
   for (let item in colorGroups) {
-    let color = colorAvgerager(colorGroups[item].inputs);
+    let inputs = colorGroups[item].inputs;
+    let colorArr = inputs.map(d => d.palette)
+    let color = colorAvgerager(colorArr);
     let count = colorGroups[item].inputCount;
     let key = colorGroups[item].key;
     colorDataArr.push({color, count, key});
@@ -41,7 +43,12 @@ d3.json('colorSOM.json', (err, data) => {
   let dataBubbles = svg.selectAll('.node').data(colorDataArr, d => d.key);
   dataBubbles.enter().append('circle').attr('class', 'node')
       .attr('r',0)
-      .style('fill', d => d.color);
+      .style('fill', d => d.color)
+      .on('click', (d) =>{
+        // console.log(colorGroups[d.key])
+        let idArr = Array.from(new Set(colorGroups[d.key].inputs.map(d => d.id)));
+        console.log(idArr)
+      });
   dataBubbles.transition()
       .duration(2000)
       .attr('r', d => d.radius);
